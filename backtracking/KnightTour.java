@@ -8,7 +8,7 @@ class KnightTour{
     static int yMove[] = {1, 2, 2, 1, -1, -2, -2, -1}; 
 	
 	public static boolean isSafe(int i,int j, Integer[][] board){
-		return (i>=0 && i<=N && j>=0 && j<=N && board[i][j] != -1);
+		return (i>=0 && i<N && j>=0 && j<N && board[i][j] != -1);
 	}
 	
 	public static void main(String[] args){
