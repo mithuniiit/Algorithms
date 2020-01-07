@@ -1,0 +1,24 @@
+package backtracking;
+
+import java.util.PriorityQueue;
+
+public class ropes {
+	public static void main(String[] args) {
+        int[] ropes = {2,6,3,4};
+        System.out.println("Length is "+joinRopes(ropes,ropes.length));
+	}
+
+	private static Integer joinRopes(int[] ropes, int n) {
+		PriorityQueue<Integer> p = new PriorityQueue<>();
+		for(int i=0;i<n;i++) {
+			p.add(ropes[i]);
+		}
+		
+		while(p.size()>1) {
+			int min = p.poll();
+			int min1 = p.poll();
+			p.add(min+min1);
+		}
+		return p.poll();
+	}
+}
