@@ -10,6 +10,27 @@ public class PalindramLinkedlist {
 		Node next;
 	}
 	
+	
+	public static boolean isPalindramRecursive(Node right) {
+		
+		left = head;
+		
+		if(right == null)
+			return true;
+		
+		boolean flag = isPalindramRecursive(right.next);
+		
+		if(flag == false)
+			return false;
+
+		flag = (left.data == right.data);
+		
+		left = left.next;
+		
+		return flag;
+	}
+	
+	
 	public static boolean isPalindram(Node head) {
 		
 		//Find Middle
