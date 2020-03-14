@@ -1,0 +1,26 @@
+Basics
+1.insert a node
+2.delete a node
+3.reverse a list
+4.print middle of linkedlist
+5.detect loop in linkedlist
+6.find nth node from end of linkedlist
+
+Arrangement ReArrangement(sorting)
+1.Flatten a linkedlist
+2.Reverse a list in groups or k nodes
+3.Merge linkedlist in alternate position
+4.Sort alternate in Ascending and Descending
+5.Rearrange list into alternate fist and last(L0 Ln L1 Ln-1 L2 Ln-3 .....)
+6.Rearrange into even/odd
+
+
+Others
+1.check if list is a palindram
+2.delete first/last occurance of a item in linkedlist
+3.remove duplicates in linkedlist
+4.Add 1 to linkedlist
+5.Add 2 node in linkedlist
+6.remove loop in linkedlist
+7.Clone a linkedlist with random pointer
+8.Intersection point of sorted and unsorted linkedlist
