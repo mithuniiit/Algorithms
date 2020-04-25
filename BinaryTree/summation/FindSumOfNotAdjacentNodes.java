@@ -30,13 +30,9 @@ public class FindSumOfNotAdjacentNodes {
 	public static int findSum(Node root) {
 		if(root == null)
 			return 0;
-
-		//find sum of grand children
-		int grandSum = findSumGrand(root);
-
-		int sum = Math.max(findSum(root.left), findSum(root.right));
 		
-		return Math.max(grandSum,sum);
+		//Find max between current level and alternate level
+		return Math.max(findSumGrand(root), findSumGrand(root.left) + findSumGrand(root.left));
 	}
 	
 	public static void main(String[] args) {
