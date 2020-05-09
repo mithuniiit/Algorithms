@@ -23,7 +23,7 @@ public class CountNodesAtKDistance {
 		}
 		
 
-		int bfs(int src, ArrayList<Integer> dist) {
+		int bfs(int src, ArrayList<Integer> dist, boolean[] mark) {
 			boolean isVisited[] = new boolean[V];
 			Queue<Integer> q = new LinkedList<>();
 			int lastVisited = 0;
@@ -33,11 +33,12 @@ public class CountNodesAtKDistance {
 			
 			while(!q.isEmpty()) {
 				int u = q.poll();
-				isVisited[u] = true;
 				for(Integer v : adj.get(u)) {
 					if(!isVisited[v]) {
 						q.add(v);
-						lastVisited = v;
+						isVisited[v] = true;
+						if(mark[v] == true)
+							lastVisited = v;
 						dist.set(v, dist.get(u)+1);
 					}
 				}
@@ -46,7 +47,7 @@ public class CountNodesAtKDistance {
 			return lastVisited;
 		}
 		
-		int countNodes(int k) {
+		int countNodes(int k, int []marked) {
 			/*
 			 1. take a start vertex and find the max distant node
 			 2. take that distent node and find next distant node
@@ -56,16 +57,19 @@ public class CountNodesAtKDistance {
 			ArrayList<Integer> distU = new ArrayList<Integer>();
 			ArrayList<Integer> distV = new ArrayList<Integer>();
 			
+			boolean[] mark = new boolean[V];
+			for(int i=0 ; i<marked.length; i++) {
+				mark[marked[i]] = true;
+			}
+			
 			for(int i=0 ;i<V; i++) {
 				distU.add(i,0);
 				distV.add(i,0);
 			}
 			
-			int leftVertex = bfs(0,distU);
-			for(int i=0;i<V;i++)
-				distU.set(i,0);
-			int rightVertex = bfs(leftVertex,distU);
-			bfs(rightVertex,distV);
+			int leftVertex = bfs(0,distU,mark);
+			int rightVertex = bfs(leftVertex,distU,mark);
+			bfs(rightVertex,distV,mark);
 			
 			int count = 0;
 			
@@ -90,6 +94,8 @@ public class CountNodesAtKDistance {
 		g.addEdge(3,5);
 		g.addEdge(5,4);
 		g.addEdge(5,9);
-		System.out.println(g.countNodes(3));
+		int[] marked = {1,2,4};
+		
+		System.out.println(g.countNodes(3,marked));
 	}
 }
