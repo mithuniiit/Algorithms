@@ -2,45 +2,37 @@ package arrays.rearrangement;
 
 public class RearrangeEleInAlternatePosNeg {
 
-	
-	static int index = 0;
-	static boolean flag = false;
-	
-	public static void swap(int []a, int left, int right) {
-		int temp = a[left];
-		a[left] = a[right];
-		a[right] = temp;
-	}
-	
-	
-	static void check(int[] a,int i) {
-		if(flag == true) {
-			swap(a,index,i);
-			flag = false;
-		}
-		else {
-			index = i;
-			flag = true;
-		}
-	}
-	
-	public static void rearrange(int []a, int n) {
+	public static void rearrange(int[] a, int n) {
 		
-		for(int i=0;i<n;i++) {
-			if( (i%2 == 0 && a[i] < 0) || (i%2 == 1 && a[i] > 0)) {
-				check(a,i);
+		int i = -1;
+		for(int j=0;j<n;j++) {
+			if(a[j] < 0) {
+				i++;
+				int temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
 			}
 		}
+		
+		int neg = 0;
+		int pos = i+1;
+		while(pos<n && neg<pos && a[neg]<0) {
+			int temp = a[pos];
+			a[pos] = a[neg];
+			a[neg] = temp;
+			pos++;
+			neg+=2;
+		}
 	}
-	
-	
+
 	public static void main(String[] args) {
-		 int arr[] = {-1, 2, -3, 4, 5, 6, -7, 8, 9}; 
-	     int n = arr.length;
-	     rearrange(arr,n);
-	     
-	     System.out.println();
-	     for(int i=0; i<n; i++)
-	    	 System.out.print(" " + arr[i]);
+		int arr[] = {-1, 2, -3, 4, 5, 6, -7, 8, 9};
+		//int arr[] = {-1, -2, -3, -4, 1, 2, 3, 4, -5};
+		int n = arr.length;
+		rearrange(arr,n);
+
+		System.out.println();
+		for(int i=0; i<n; i++)
+			System.out.print(" " + arr[i]);
 	}
 }
