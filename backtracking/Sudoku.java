@@ -1,96 +1,102 @@
-class Sudoku{
-	
-	public static boolean isSafe(int[][] board,int row,int col,int num){
-		for(int d=0;d<num;d++){
-		  if (board[row][d] == num)  
-            return false; 
-        }
-		
-		for (int r = 0; r < board.length; r++) 
-		{
-			if (board[r][col] == num) 
+package backtracking;
+
+public class Sudoku {
+
+	public static boolean isSafe(int[][] board,int row, int col, int num, int n) {
+		//Check Row
+		for(int i=0;i<n;i++) {
+			if(board[row][i] == num) {
 				return false;
+			}
 		}
 		
-		int sqrt = (int) Math.sqrt(board.length); 
-		int boxRowStart = row - row % sqrt; 
-		int boxColStart = col - col % sqrt; 
-		for (int r = boxRowStart; r < boxRowStart + sqrt; r++)  {
-			for (int d = boxColStart; d < boxColStart + sqrt; d++)  
-			{ 
-				if (board[r][d] == num)  
-				{ 
-					return false; 
-				} 
-			} 
-		} 
-			
+		//Check col
+		for(int i=0;i<n;i++) {
+			if(board[i][col] == num) {
+				return false;
+			}
+		}
+		
+		//Check within the matrix
+		int sqrt = (int) Math.sqrt(n);
+		int boxRowStart = row - row % sqrt;
+		int boxColStart = col - col % sqrt;
+		
+		for(int r = boxRowStart; r< boxRowStart+sqrt; r++) {
+			for(int c = boxColStart; c< boxColStart+sqrt; c++) {
+				if(board[r][c] == num)
+					return false;
+			}
+		}
+		
+		return true;
 	}
 	
-	
-
-	public static boolean solveSudoku(int[][] board,int N){
-		boolean isEmpty = true;
-		int row=-1;
-		int col=-1;
-		for(int i=0;i<N;i++){
-			for(int j=0;j<N;j++){
-				if(board[i][j]== 0){
-					isEmpty = false;
-					
-					row=i;
-					col=j;
-					
+	public static boolean solveSudoku(int [][]board, int n) {
+		
+		boolean found = true;
+		int i=-1;
+		int j=-1;
+		
+		//Find free slot in the board
+		for(i=0;i<n;i++) {
+			for(j=0;j<n;j++) {
+				if(board[i][j] == 0) {
+					found = false;
 					break;
 				}
 			}
+			if(!found)
+				break;
 		}
 		
-		//All the elements are visited.
-		if(isEmpty == true)
+		if(found)
 			return true;
 		
-		//Try all possible choices
-		for(int num=1; num<=n; num++){
-			if(isSafe(board,N,row,col,num)){
-				board[row][col]=num;
-				if(solveSudoku(board,N)){
+		//Now we have found a free slot. let us find the right place.
+		for(int num=1; num<=n; num++) {
+			if(isSafe(board,i,j,num,n)) {
+				board[i][j] = num;
+				if(solveSudoku(board,n))
 					return true;
-				}
-				//backtrack
-				board[row][col]=0;
+				else
+					board[i][j] = 0;
 			}
 		}
+
 		return false;
 	}
-
-	public static void main(String[] args){
-		int[][] board = new int[][] 
-		{ 
-            {3, 0, 6, 5, 0, 8, 4, 0, 0}, 
-            {5, 2, 0, 0, 0, 0, 0, 0, 0}, 
-            {0, 8, 7, 0, 0, 0, 0, 3, 1}, 
-            {0, 0, 3, 0, 1, 0, 0, 8, 0}, 
-            {9, 0, 0, 8, 6, 3, 0, 0, 5}, 
-            {0, 5, 0, 0, 9, 0, 6, 0, 0}, 
-            {1, 3, 0, 0, 0, 0, 2, 5, 0}, 
-            {0, 0, 0, 0, 0, 0, 0, 7, 4}, 
-            {0, 0, 5, 2, 0, 6, 3, 0, 0} 
-		};
-
-		int N = board.length;
-		if(solveSudoku(board,N)){
-			for(int i=0;i<N;i++){
-				for(int j=0;j<N;j++){
-					System.out.print(board[i][j]+"");
-				}
-				System.out.println();
+	
+	
+	public static void print(int [][]board, int N) {
+		for(int i=0;i<N;i++) {
+			System.out.println();
+			for(int j=0;j<N;j++) {
+				System.out.print(" "+board[i][j]);
 			}
-		}else{
-			System.out.println("No Solution");
 		}
 	}
-		
-		
+
+	public static void main(String[] args) {
+		int[][] board = new int[][] { 
+			{ 3, 0, 6, 5, 0, 8, 4, 0, 0 }, 
+			{ 5, 2, 0, 0, 0, 0, 0, 0, 0 }, 
+			{ 0, 8, 7, 0, 0, 0, 0, 3, 1 }, 
+			{ 0, 0, 3, 0, 1, 0, 0, 8, 0 }, 
+			{ 9, 0, 0, 8, 6, 3, 0, 0, 5 }, 
+			{ 0, 5, 0, 0, 9, 0, 6, 0, 0 }, 
+			{ 1, 3, 0, 0, 0, 0, 2, 5, 0 }, 
+			{ 0, 0, 0, 0, 0, 0, 0, 7, 4 }, 
+			{ 0, 0, 5, 2, 0, 6, 3, 0, 0 } 
+		}; 
+		int N = board.length; 
+
+		if (solveSudoku(board, N)) { 
+			// print solution 
+			print(board, N); 
+		} 
+		else { 
+			System.out.println("No solution"); 
+		} 
+	} 
 }
-	
